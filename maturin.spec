@@ -3,7 +3,7 @@
 Summary:	Build and publish rust crates as python packages
 Name:		maturin
 Version:	0.10.3
-Release:	1
+Release:	2
 License:	MIT or Apache v2.0
 Group:		Applications
 Source0:	https://github.com/PyO3/maturin/archive/v%{version}/%{name}-%{version}.tar.gz
