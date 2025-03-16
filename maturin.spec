@@ -71,7 +71,6 @@ rm -rf $RPM_BUILD_ROOT
 export CARGO_HOME="$(pwd)/.cargo"
 
 %cargo_install --frozen --root $RPM_BUILD_ROOT%{_prefix} --path $(pwd)
-%{__rm} $RPM_BUILD_ROOT%{_prefix}/.crates*
 
 %if %{with python3}
 %py3_install
