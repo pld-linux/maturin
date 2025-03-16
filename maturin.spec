@@ -14,6 +14,7 @@ Source0:	https://github.com/PyO3/maturin/archive/v%{version}/%{name}-%{version}.
 # ./create-crates.sh
 Source1:	%{name}-crates-%{crates_ver}.tar.xz
 # Source1-md5:	c15d367a752fc0c9997eb4c6a95f7df5
+Patch0:		x32.patch
 URL:		https://github.com/PyO3/maturin
 BuildRequires:	cargo
 BuildRequires:	rpmbuild(macros) >= 2.004
@@ -43,6 +44,12 @@ Maturin bindings for Python.
 
 %{__mv} maturin-%{crates_ver}/* .
 sed -i -e 's/@@VERSION@@/%{version}/' Cargo.lock
+
+old_sum=$(sha256sum vendor/ring/src/cpu/intel.rs|cut -f1 -d' ')
+%patch -P0 -p0
+new_sum=$(sha256sum vendor/ring/src/cpu/intel.rs|cut -f1 -d' ')
+test "$old_sum" != "$new_sum"
+%{__sed} -i -e "s/$old_sum/$new_sum/" vendor/ring/.cargo-checksum.json
 
 # use our offline registry
 export CARGO_HOME="$(pwd)/.cargo"
