@@ -70,6 +70,8 @@ export CARGO_HOME="$(pwd)/.cargo"
 %cargo_build --frozen
 
 %if %{with python3}
+export RUSTFLAGS="%{rpmrustflags}"
+export MATURIN_SETUP_ARGS="%__cargo_common_opts --target %rust_target --target-dir %cargo_targetdir"
 %py3_build
 %endif
 
@@ -80,6 +82,8 @@ export CARGO_HOME="$(pwd)/.cargo"
 %cargo_install --frozen --root $RPM_BUILD_ROOT%{_prefix} --path $(pwd)
 
 %if %{with python3}
+export RUSTFLAGS="%{rpmrustflags}"
+export MATURIN_SETUP_ARGS="%__cargo_common_opts --target %rust_target --target-dir %cargo_targetdir"
 %py3_install
 %endif
 
