@@ -1,27 +1,29 @@
 %bcond_without	python3
 
 %define		module		maturin
-%define		crates_ver	1.8.2
+%define		crates_ver	1.8.6
 
 Summary:	Build and publish rust crates as python packages
 Name:		maturin
-Version:	1.8.2
+Version:	1.8.6
 Release:	1
 License:	MIT or Apache v2.0
 Group:		Applications
 Source0:	https://github.com/PyO3/maturin/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	762eaadba0e0a250a30892c8d17c32a2
+# Source0-md5:	6580b7095788035ac526550c5e179d50
 # ./create-crates.sh
 Source1:	%{name}-crates-%{crates_ver}.tar.xz
-# Source1-md5:	c15d367a752fc0c9997eb4c6a95f7df5
+# Source1-md5:	760b984b0a30a1cd7b47c189255f639c
 Patch0:		x32.patch
 URL:		https://github.com/PyO3/maturin
 BuildRequires:	cargo
 BuildRequires:	rpmbuild(macros) >= 2.004
 BuildRequires:	rust
 %if %{with python3}
+BuildRequires:	python3-build
+BuildRequires:	python3-installer
 BuildRequires:	python3-modules >= 1:3.2
-BuildRequires:	python3-setuptools_rust >= 1.0
+BuildRequires:	python3-setuptools_rust >= 1.11.0
 %endif
 ExclusiveArch:	%{rust_arches}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -46,7 +48,7 @@ Maturin bindings for Python.
 sed -i -e 's/@@VERSION@@/%{version}/' Cargo.lock
 
 old_sum=$(sha256sum vendor/ring/src/cpu/intel.rs|cut -f1 -d' ')
-%patch -P0 -p0
+%patch -P0 -p1
 new_sum=$(sha256sum vendor/ring/src/cpu/intel.rs|cut -f1 -d' ')
 test "$old_sum" != "$new_sum"
 %{__sed} -i -e "s/$old_sum/$new_sum/" vendor/ring/.cargo-checksum.json
@@ -72,7 +74,7 @@ export CARGO_HOME="$(pwd)/.cargo"
 %if %{with python3}
 export RUSTFLAGS="%{rpmrustflags}"
 export MATURIN_SETUP_ARGS="%__cargo_common_opts --target %rust_target --target-dir %cargo_targetdir"
-%py3_build
+%py3_build_pyproject
 %endif
 
 %install
@@ -84,7 +86,8 @@ export CARGO_HOME="$(pwd)/.cargo"
 %if %{with python3}
 export RUSTFLAGS="%{rpmrustflags}"
 export MATURIN_SETUP_ARGS="%__cargo_common_opts --target %rust_target --target-dir %cargo_targetdir"
-%py3_install
+rm $RPM_BUILD_ROOT%{_bindir}/maturin
+%py3_install_pyproject
 %endif
 
 %clean
@@ -99,5 +102,5 @@ rm -rf $RPM_BUILD_ROOT
 %files -n python3-%{module}
 %defattr(644,root,root,755)
 %{py3_sitedir}/%{module}
-%{py3_sitedir}/%{module}-%{version}-py*.egg-info
+%{py3_sitedir}/%{module}-%{version}.dist-info
 %endif
