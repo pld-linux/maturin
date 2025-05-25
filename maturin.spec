@@ -6,7 +6,7 @@
 Summary:	Build and publish rust crates as python packages
 Name:		maturin
 Version:	1.8.6
-Release:	1
+Release:	2
 License:	MIT or Apache v2.0
 Group:		Applications
 Source0:	https://github.com/PyO3/maturin/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -17,6 +17,7 @@ Source1:	%{name}-crates-%{crates_ver}.tar.xz
 Patch0:		x32.patch
 URL:		https://github.com/PyO3/maturin
 BuildRequires:	cargo
+BuildRequires:	diffstat
 BuildRequires:	rpmbuild(macros) >= 2.004
 BuildRequires:	rust
 %if %{with python3}
@@ -47,11 +48,13 @@ Maturin bindings for Python.
 %{__mv} maturin-%{crates_ver}/* .
 sed -i -e 's/@@VERSION@@/%{version}/' Cargo.lock
 
-old_sum=$(sha256sum vendor/ring/src/cpu/intel.rs|cut -f1 -d' ')
+diffstat -l -p1 %PATCH0 | xargs sha256sum > %builddir/x32.patch.sha256
 %patch -P0 -p1
-new_sum=$(sha256sum vendor/ring/src/cpu/intel.rs|cut -f1 -d' ')
-test "$old_sum" != "$new_sum"
-%{__sed} -i -e "s/$old_sum/$new_sum/" vendor/ring/.cargo-checksum.json
+cat %builddir/x32.patch.sha256 | while read old_sum f; do
+  new_sum=$(sha256sum $f | cut -f1 -d' ')
+  test "$old_sum" != "$new_sum"
+  %{__sed} -i -e "s/$old_sum/$new_sum/" vendor/ring/.cargo-checksum.json
+done
 
 # use our offline registry
 export CARGO_HOME="$(pwd)/.cargo"
