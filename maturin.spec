@@ -3,7 +3,8 @@
 %define		module		maturin
 %define		crates_ver	1.8.6
 
-Summary:	Build and publish rust crates as python packages
+Summary:	Build and publish Rust crates as Python packages
+Summary(pl.UTF-8):	Budowanie i publikowanie pak Rusta jako pakietów Pythonowych
 Name:		maturin
 Version:	1.8.6
 Release:	2
@@ -31,16 +32,24 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Build and publish crates with pyo3, rust-cpython and cffi bindings as
-well as rust binaries as python packages.
+well as rust binaries as Python packages.
+
+%description -l pl.UTF-8
+Budowanie i publikowanie pak przy użyciu wiązań pyo3, rust-cpython i
+cffi, a także binariów Rusta jako pakietów Pythona.
 
 %package -n python3-%{module}
 Summary:	Maturin bindings for Python
+Summary(pl.UTF-8):	Wiązania Maturina dla Pythona
 Group:		Libraries/Python
 Requires:	python3-modules >= 1:3.2
 Requires:	%{name} = %{version}-%{release}
 
 %description -n python3-%{module}
 Maturin bindings for Python.
+
+%description -n python3-%{module} -l pl.UTF-8
+Wiązania Maturina dla Pythona.
 
 %prep
 %setup -q -a1
