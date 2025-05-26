@@ -48,9 +48,9 @@ Maturin bindings for Python.
 %{__mv} maturin-%{crates_ver}/* .
 sed -i -e 's/@@VERSION@@/%{version}/' Cargo.lock
 
-diffstat -l -p1 %PATCH0 | xargs sha256sum > %builddir/x32.patch.sha256
+diffstat -l -p1 %{PATCH0} | xargs sha256sum > x32.patch.sha256
 %patch -P0 -p1
-cat %builddir/x32.patch.sha256 | while read old_sum f; do
+cat x32.patch.sha256 | while read old_sum f; do
   new_sum=$(sha256sum $f | cut -f1 -d' ')
   test "$old_sum" != "$new_sum"
   %{__sed} -i -e "s/$old_sum/$new_sum/" vendor/ring/.cargo-checksum.json
@@ -89,7 +89,7 @@ export CARGO_HOME="$(pwd)/.cargo"
 %if %{with python3}
 export RUSTFLAGS="%{rpmrustflags}"
 export MATURIN_SETUP_ARGS="%__cargo_common_opts --target %rust_target --target-dir %cargo_targetdir"
-rm $RPM_BUILD_ROOT%{_bindir}/maturin
+%{__rm} $RPM_BUILD_ROOT%{_bindir}/maturin
 %py3_install_pyproject
 %endif
 
