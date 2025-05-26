@@ -19,13 +19,17 @@ Patch0:		x32.patch
 URL:		https://github.com/PyO3/maturin
 BuildRequires:	cargo
 BuildRequires:	diffstat
-BuildRequires:	rpmbuild(macros) >= 2.004
-BuildRequires:	rust
+BuildRequires:	rpmbuild(macros) >= 2.044
+BuildRequires:	rust >= 1.74
 %if %{with python3}
 BuildRequires:	python3-build
 BuildRequires:	python3-installer
-BuildRequires:	python3-modules >= 1:3.2
+BuildRequires:	python3-modules >= 1:3.7
+BuildRequires:	python3-setuptools
 BuildRequires:	python3-setuptools_rust >= 1.11.0
+%if "%{_ver_lt %{py3_ver} 3.11}" == "1"
+BuildRequires:	python3-tomli >= 1.1.0
+%endif
 %endif
 ExclusiveArch:	%{rust_arches}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -42,7 +46,7 @@ cffi, a także binariów Rusta jako pakietów Pythona.
 Summary:	Maturin bindings for Python
 Summary(pl.UTF-8):	Wiązania Maturina dla Pythona
 Group:		Libraries/Python
-Requires:	python3-modules >= 1:3.2
+Requires:	python3-modules >= 1:3.7
 Requires:	%{name} = %{version}-%{release}
 
 %description -n python3-%{module}
