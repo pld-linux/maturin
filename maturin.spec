@@ -1,20 +1,20 @@
 %bcond_without	python3
 
 %define		module		maturin
-%define		crates_ver	1.8.6
+%define		crates_ver	1.8.7
 
 Summary:	Build and publish Rust crates as Python packages
 Summary(pl.UTF-8):	Budowanie i publikowanie pak Rusta jako pakietów Pythonowych
 Name:		maturin
-Version:	1.8.6
-Release:	2
+Version:	1.8.7
+Release:	1
 License:	MIT or Apache v2.0
 Group:		Applications
 Source0:	https://github.com/PyO3/maturin/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	6580b7095788035ac526550c5e179d50
+# Source0-md5:	cdaa2fd0d6192a7e0950796310bb55df
 # ./create-crates.sh
 Source1:	%{name}-crates-%{crates_ver}.tar.xz
-# Source1-md5:	760b984b0a30a1cd7b47c189255f639c
+# Source1-md5:	dc9f09791c7d038bd6be38209675d399
 Patch0:		x32.patch
 URL:		https://github.com/PyO3/maturin
 BuildRequires:	bzip2-devel
