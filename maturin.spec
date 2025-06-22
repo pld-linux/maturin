@@ -17,10 +17,15 @@ Source1:	%{name}-crates-%{crates_ver}.tar.xz
 # Source1-md5:	760b984b0a30a1cd7b47c189255f639c
 Patch0:		x32.patch
 URL:		https://github.com/PyO3/maturin
+BuildRequires:	bzip2-devel
 BuildRequires:	cargo
 BuildRequires:	diffstat
+BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 2.044
 BuildRequires:	rust >= 1.74
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
+BuildRequires:	xz-devel
 %if %{with python3}
 BuildRequires:	python3-build
 BuildRequires:	python3-installer
@@ -64,9 +69,9 @@ sed -i -e 's/@@VERSION@@/%{version}/' Cargo.lock
 diffstat -l -p1 %{PATCH0} | xargs sha256sum > x32.patch.sha256
 %patch -P0 -p1
 cat x32.patch.sha256 | while read old_sum f; do
-  new_sum=$(sha256sum $f | cut -f1 -d' ')
-  test "$old_sum" != "$new_sum"
-  %{__sed} -i -e "s/$old_sum/$new_sum/" vendor/ring/.cargo-checksum.json
+	new_sum=$(sha256sum $f | cut -f1 -d' ')
+	test "$old_sum" != "$new_sum"
+	%{__sed} -i -e "s/$old_sum/$new_sum/" vendor/ring/.cargo-checksum.json
 done
 
 # use our offline registry
