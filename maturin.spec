@@ -1,20 +1,22 @@
-%bcond_without	python3
+#
+# Conditional build:
+%bcond_without	python3		# Python (3.x) module
 
 %define		module		maturin
-%define		crates_ver	1.8.7
+%define		crates_ver	%{version}
 
 Summary:	Build and publish Rust crates as Python packages
 Summary(pl.UTF-8):	Budowanie i publikowanie pak Rusta jako pakietów Pythonowych
 Name:		maturin
-Version:	1.8.7
+Version:	1.9.1
 Release:	1
 License:	MIT or Apache v2.0
-Group:		Applications
+Group:		Development/Tools
 Source0:	https://github.com/PyO3/maturin/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	cdaa2fd0d6192a7e0950796310bb55df
-# ./create-crates.sh
+# Source0-md5:	ed8cd3f6467522692c8b91def0a939b2
+# cargo vendor-filterer --platform='*-unknown-linux-*' --tier=2
 Source1:	%{name}-crates-%{crates_ver}.tar.xz
-# Source1-md5:	dc9f09791c7d038bd6be38209675d399
+# Source1-md5:	1cb90efe9631d2b03d19b78a110e1920
 Patch0:		x32.patch
 URL:		https://github.com/PyO3/maturin
 BuildRequires:	bzip2-devel
@@ -63,8 +65,7 @@ Wiązania Maturina dla Pythona.
 %prep
 %setup -q -a1
 
-%{__mv} maturin-%{crates_ver}/* .
-sed -i -e 's/@@VERSION@@/%{version}/' Cargo.lock
+%{__sed} -i -e 's/@@VERSION@@/%{version}/' Cargo.lock
 
 diffstat -l -p1 %{PATCH0} | xargs sha256sum > x32.patch.sha256
 %patch -P0 -p1
