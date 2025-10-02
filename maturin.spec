@@ -27,6 +27,7 @@ BuildRequires:	bzip2-devel
 BuildRequires:	cargo
 BuildRequires:	diffstat
 BuildRequires:	pkgconfig
+BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 2.044
 BuildRequires:	rust >= 1.74
 BuildRequires:	tar >= 1:1.22
@@ -36,7 +37,7 @@ BuildRequires:	xz-devel
 BuildRequires:	python3-build
 BuildRequires:	python3-installer
 BuildRequires:	python3-modules >= 1:3.7
-BuildRequires:	python3-setuptools
+BuildRequires:	python3-setuptools >= 1:77.0.0
 BuildRequires:	python3-setuptools_rust >= 1.11.0
 %if "%{_ver_lt %{py3_ver} 3.11}" == "1"
 BuildRequires:	python3-tomli >= 1.1.0
