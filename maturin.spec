@@ -5,8 +5,6 @@
 %define		module		maturin
 %define		crates_ver	%{version}
 
-%undefine	_debugsource_packages
-
 Summary:	Build and publish Rust crates as Python packages
 Summary(pl.UTF-8):	Budowanie i publikowanie pak Rusta jako pakietów Pythonowych
 Name:		maturin
