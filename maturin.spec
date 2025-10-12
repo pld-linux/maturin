@@ -26,7 +26,7 @@ BuildRequires:	cargo
 BuildRequires:	diffstat
 BuildRequires:	pkgconfig
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 2.044
+BuildRequires:	rpmbuild(macros) >= 2.050
 BuildRequires:	rust >= 1.74
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
@@ -41,6 +41,7 @@ BuildRequires:	python3-setuptools_rust >= 1.11.0
 BuildRequires:	python3-tomli >= 1.1.0
 %endif
 %endif
+%{?rust_req}
 ExclusiveArch:	%{rust_arches}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -56,8 +57,8 @@ cffi, a także binariów Rusta jako pakietów Pythona.
 Summary:	Maturin bindings for Python
 Summary(pl.UTF-8):	Wiązania Maturina dla Pythona
 Group:		Libraries/Python
-Requires:	python3-modules >= 1:3.7
 Requires:	%{name} = %{version}-%{release}
+Requires:	python3-modules >= 1:3.7
 
 %description -n python3-%{module}
 Maturin bindings for Python.
