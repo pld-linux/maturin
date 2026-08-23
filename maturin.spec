@@ -8,17 +8,17 @@
 Summary:	Build and publish Rust crates as Python packages
 Summary(pl.UTF-8):	Budowanie i publikowanie pak Rusta jako pakietów Pythonowych
 Name:		maturin
-Version:	1.9.4
+Version:	1.14.1
 Release:	1
 License:	MIT or Apache v2.0
 Group:		Development/Tools
 Source0:	https://github.com/PyO3/maturin/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	71042be87f337dad340976d78c1bcccf
+# Source0-md5:	ed60ce01916c36311fa8752b7af00b67
 # poldek -uvg cargo-vendor-filterer
 # cargo vendor-filterer --platform='*-unknown-linux-*' --tier=2
 # tar cJf maturin-crates-%{version}.tar.xz vendor Cargo.lock
 Source1:	%{name}-crates-%{crates_ver}.tar.xz
-# Source1-md5:	73a4fb0a11a68fabce99a003c8d82280
+# Source1-md5:	1331399ad2b19db9fdbef0a9606adc22
 Patch0:		x32.patch
 URL:		https://github.com/PyO3/maturin
 BuildRequires:	bzip2-devel
